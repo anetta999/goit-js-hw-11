@@ -29,20 +29,27 @@ function onPagination(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       page += 1;
-      serviceImagesByInputValue(inputValue, page).then(data => {
-        const { hits, totalHits } = data;
 
-        const totalPages = Math.ceil(totalHits / 40);
+      serviceImagesByInputValue(inputValue, page)
+        .then(data => {
+          const { hits, totalHits } = data;
 
-        selectors.galleryContainer.insertAdjacentHTML(
-          'beforeend',
-          createImageMarkup({ hits })
-        );
+          const totalPages = Math.ceil(totalHits / 40);
 
-        if (page >= totalPages) {
-          observer.unobserve(selectors.guard);
-        }
-      });
+          selectors.galleryContainer.insertAdjacentHTML(
+            'beforeend',
+            createImageMarkup({ hits })
+          );
+
+          if (page >= totalPages) {
+            observer.unobserve(selectors.guard);
+
+            Notiflix.Notify.info(
+              "We're sorry, but you've reached the end of search results."
+            );
+          }
+        })
+        .catch(error => handleError(error));
     }
   });
 }
@@ -55,6 +62,8 @@ function onSearch(evt) {
   if (!inputValue) {
     return Notiflix.Notify.failure('Search field cannot be empty!');
   }
+
+  page = 1;
 
   serviceImagesByInputValue(inputValue, page)
     .then(data => {
