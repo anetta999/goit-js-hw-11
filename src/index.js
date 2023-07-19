@@ -63,8 +63,6 @@ function onSearch(evt) {
     return Notiflix.Notify.failure('Search field cannot be empty!');
   }
 
-  page = 1;
-
   serviceImagesByInputValue(inputValue, page)
     .then(data => {
       const { hits, totalHits } = data;
@@ -134,4 +132,5 @@ function handleError(error) {
 
 function clearGallery() {
   selectors.galleryContainer.innerHTML = '';
+  page = 1;
 }
