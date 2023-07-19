@@ -12,7 +12,7 @@ const selectors = {
 
 selectors.searchForm.addEventListener('submit', onSearch);
 
-selectors.input.addEventListener('input', clearGallery);
+selectors.input.addEventListener('change', clearGallery);
 
 const options = {
   root: null,
