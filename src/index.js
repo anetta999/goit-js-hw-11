@@ -3,7 +3,7 @@ import Notiflix from 'notiflix';
 import 'notiflix/src/notiflix.css';
 import { formToJSON } from 'axios';
 
-selectors = {
+const selectors = {
   searchForm: document.querySelector('.search-form'),
   galleryContainer: document.querySelector('.gallery'),
   input: document.querySelector('input'),
@@ -21,6 +21,7 @@ const options = {
 };
 
 let page = 1;
+let inputValue = selectors.input.value.trim();
 
 const observer = new IntersectionObserver(onPagination, options);
 
@@ -28,14 +29,17 @@ function onPagination(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       page += 1;
-      serviceImagesByInputValue(value, page).then(data => {
-        const { hits, total } = data;
+      serviceImagesByInputValue(inputValue, page).then(data => {
+        const { hits, totalHits } = data;
+
+        const totalPages = Math.ceil(totalHits / 40);
 
         selectors.galleryContainer.insertAdjacentHTML(
           'beforeend',
           createImageMarkup({ hits })
         );
-        if (page >= total) {
+
+        if (page >= totalPages) {
           observer.unobserve(selectors.guard);
         }
       });
@@ -46,16 +50,17 @@ function onPagination(entries, observer) {
 function onSearch(evt) {
   evt.preventDefault();
 
-  const { searchQuery } = evt.currentTarget.elements;
-  //   console.log(searchQuery.value);
-  const inputValue = searchQuery.value.trim();
+  inputValue = selectors.input.value.trim();
+
   if (!inputValue) {
     return Notiflix.Notify.failure('Search field cannot be empty!');
   }
 
   serviceImagesByInputValue(inputValue, page)
     .then(data => {
-      const { hits, total } = data;
+      const { hits, totalHits } = data;
+
+      const totalPages = Math.ceil(totalHits / 40);
 
       if (!hits.length) {
         throw new Error(
@@ -68,7 +73,7 @@ function onSearch(evt) {
         createImageMarkup({ hits })
       );
 
-      if (page < total) {
+      if (page < totalPages) {
         observer.observe(selectors.guard);
       }
     })
