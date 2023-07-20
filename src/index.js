@@ -3,7 +3,10 @@ import Notiflix from 'notiflix';
 import 'notiflix/src/notiflix.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import Scrollbar from 'smooth-scrollbar';
 import { formToJSON } from 'axios';
+
+Scrollbar.init(document.querySelector('.scrollbar-container'));
 
 const selectors = {
   searchForm: document.querySelector('.search-form'),
@@ -14,21 +17,21 @@ const selectors = {
 
 let gallerySimplelightbox = new SimpleLightbox('.photo-card a', {
   captionsData: 'alt',
-  captionDelay: 250,
+  captionDelay: 300,
 });
 
 selectors.searchForm.addEventListener('submit', onSearch);
 
 selectors.input.addEventListener('change', clearGallery);
 
+let page = 1;
+let inputValue = selectors.input.value.trim();
+
 const options = {
   root: null,
   rootMargin: '200px',
   threshold: 0,
 };
-
-let page = 1;
-let inputValue = selectors.input.value.trim();
 
 const observer = new IntersectionObserver(onPagination, options);
 
@@ -47,6 +50,8 @@ function onPagination(entries, observer) {
             'beforeend',
             createImageMarkup({ hits })
           );
+
+          gallerySimplelightbox.refresh();
 
           if (page >= totalPages) {
             observer.unobserve(selectors.guard);
@@ -87,9 +92,10 @@ function onSearch(evt) {
         createImageMarkup({ hits })
       );
 
+      gallerySimplelightbox.refresh();
+
       if (page < totalPages) {
         observer.observe(selectors.guard);
-
         Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       }
     })
