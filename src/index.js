@@ -1,6 +1,8 @@
 import { serviceImagesByInputValue } from './api.js';
 import Notiflix from 'notiflix';
 import 'notiflix/src/notiflix.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { formToJSON } from 'axios';
 
 const selectors = {
@@ -9,6 +11,11 @@ const selectors = {
   input: document.querySelector('input'),
   guard: document.querySelector('.js-guard'),
 };
+
+let gallerySimplelightbox = new SimpleLightbox('.photo-card a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 selectors.searchForm.addEventListener('submit', onSearch);
 
@@ -45,7 +52,7 @@ function onPagination(entries, observer) {
             observer.unobserve(selectors.guard);
 
             Notiflix.Notify.info(
-              "We're sorry, but you've reached the end of search results."
+              "We're sorry, but you've reached the last page of search results."
             );
           }
         })
@@ -82,6 +89,8 @@ function onSearch(evt) {
 
       if (page < totalPages) {
         observer.observe(selectors.guard);
+
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       }
     })
     .catch(error => handleError(error))
@@ -101,7 +110,9 @@ function createImageMarkup({ hits }) {
         downloads,
       }) => {
         return `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="300" />
+  <a href="${largeImageURL}">
+      <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" width="300"
+    /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b>
