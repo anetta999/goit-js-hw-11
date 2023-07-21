@@ -117,7 +117,7 @@ function createImageMarkup({ hits }) {
       }) => {
         return `<div class="photo-card">
   <a class="gallery-link" href="${largeImageURL}">
-      <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" width="300" 
+      <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy"  
     /></a>
   <div class="info">
     <p class="info-item">

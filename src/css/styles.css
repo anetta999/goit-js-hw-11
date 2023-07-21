@@ -75,7 +75,8 @@ input {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 10px;
 }
 
 .gallery-link {
