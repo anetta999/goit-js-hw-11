@@ -26,7 +26,7 @@ section {
 }
 
 .container {
-  width: 1075px;
+  width: 1140px;
   padding-left: 15px;
   padding-right: 15px;
   margin: 0 auto;
@@ -81,8 +81,7 @@ input {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .gallery-link {

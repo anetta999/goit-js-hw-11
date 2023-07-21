@@ -3,10 +3,7 @@ import Notiflix from 'notiflix';
 import 'notiflix/src/notiflix.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import Scrollbar from 'smooth-scrollbar';
 import { formToJSON } from 'axios';
-
-Scrollbar.init(document.querySelector('.scrollbar-container'));
 
 const selectors = {
   searchForm: document.querySelector('.search-form'),
@@ -141,6 +138,7 @@ function createImageMarkup({ hits }) {
 
 function handleError(error) {
   Notiflix.Notify.failure(error.message);
+  Notiflix.Notify.info.remove();
 }
 
 function clearGallery() {
