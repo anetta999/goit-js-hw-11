@@ -24,13 +24,13 @@ section {
   padding-bottom: 50px;
 }
 
-.container {
+/* .container {
   width: 1140px;
   padding-left: 15px;
   padding-right: 15px;
   margin: 0 auto;
   outline: 1px solid tomato;
-}
+} */
 
 .header {
   padding-top: 20px;
