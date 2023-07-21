@@ -26,11 +26,10 @@ section {
 }
 
 .container {
-  width: 1140px;
+  width: 1075px;
   padding-left: 15px;
   padding-right: 15px;
   margin: 0 auto;
-  outline: 1px solid tomato;
 }
 
 .header {
