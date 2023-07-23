@@ -23,7 +23,8 @@
     "notiflix": "^3.2.6",
     "only-scrollbar": "^1.0.3-beta",
     "simplelightbox": "^2.14.1",
-    "smooth-scrollbar": "^8.8.4"
+    "smooth-scrollbar": "^8.8.4",
+    "smooth-scrolling": "^2.3.12"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",

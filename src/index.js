@@ -19,8 +19,6 @@ let gallerySimplelightbox = new SimpleLightbox('.photo-card a', {
 
 selectors.searchForm.addEventListener('submit', onSearch);
 
-selectors.input.addEventListener('change', clearGallery);
-
 let page = 1;
 let inputValue = selectors.input.value.trim();
 
@@ -36,6 +34,7 @@ function onPagination(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       page += 1;
+      smoothScroll();
 
       serviceImagesByInputValue(inputValue, page)
         .then(data => {
@@ -72,6 +71,8 @@ function onSearch(evt) {
     return Notiflix.Notify.failure('Search field cannot be empty!');
   }
 
+  clearGallery();
+
   serviceImagesByInputValue(inputValue, page)
     .then(data => {
       const { hits, totalHits } = data;
@@ -93,6 +94,7 @@ function onSearch(evt) {
 
       if (page < totalPages) {
         observer.observe(selectors.guard);
+
         Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       }
     })
@@ -138,10 +140,20 @@ function createImageMarkup({ hits }) {
 
 function handleError(error) {
   Notiflix.Notify.failure(error.message);
-  Notiflix.Notify.info.remove();
 }
 
 function clearGallery() {
   selectors.galleryContainer.innerHTML = '';
   page = 1;
+}
+
+function smoothScroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }

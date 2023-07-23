@@ -122,3 +122,15 @@ input {
   color: black;
   flex-basis: calc((100% - 10px * 3) / 4);
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: rgba(26, 24, 47, 0.15);
+  border-radius: 5px;
+  height: 800px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a182f;
+  border-radius: 5px;
+}
